@@ -21,7 +21,7 @@ describe("Handlers", () => {
 
     it("should return a message", () => {
       handlers.getHelloWorld({} as Request, mockResponse);
-      expect(mockResponse.send).toHaveBeenCalledWith("Hello World!");
+      expect(mockResponse.send).toHaveBeenCalledWith("Hola amigo");
     });
   });
 });
