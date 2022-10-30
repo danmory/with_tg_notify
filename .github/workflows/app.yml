@@ -1,7 +1,7 @@
 name: Express application
 on: [push]
 jobs:
-  tests:
+  testing:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -13,9 +13,13 @@ jobs:
         run: npm ci
       - name: Run tests
         run: npm test
+      - name: Run typechecking
+        run: npm run typecheck
   tg:
     runs-on: ubuntu-latest
-    if: job.tests.result == 'failure'
+    needs: 
+      - testing
+    if: ${{ always() && needs.testing.result != 'success' }}
     steps:
       - name: send telegram message
         uses: appleboy/telegram-action@master
