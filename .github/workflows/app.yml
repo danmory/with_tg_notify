@@ -1,0 +1,28 @@
+name: Express application
+on: [push]
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm test
+  tg:
+    runs-on: ubuntu-latest
+    if: job.tests.result == 'failure'
+    steps:
+      - name: send telegram message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            FAILURE:
+            ${{ github.actor }} pushed to ${{ github.ref }}.:
+            Commit message: ${{ github.event.commits[0].message }}
