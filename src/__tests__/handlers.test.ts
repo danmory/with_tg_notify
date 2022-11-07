@@ -16,7 +16,7 @@ describe("Handlers", () => {
 
     it("should return a 200 status code", () => {
       handlers.getHelloWorld(mockRequest, mockResponse);
-      expect(mockResponse.status).toHaveBeenCalledWith(200);
+      expect(mockResponse.status).toHaveBeenCalledWith(400);
     });
 
     it("should return a message", () => {
